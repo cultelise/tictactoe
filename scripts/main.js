@@ -1,9 +1,12 @@
 (function () {
   const GameBoard = (() => {
     const grid = Array(9);
-    grid.fill('X');
+    grid.fill(' ');
     const getBoard = () => grid;
     
+    const addChoice = ((choice, square) => {
+      grid[square].textContent = choice;
+    })
 
     const createBoard = (() => {
       const body = document.querySelector('body');
@@ -11,67 +14,54 @@
       board.id = 'board';
       board.style.display = 'grid';
       board.style.gridTemplate = '1fr 1fr 1fr / 1fr 1fr 1fr'
-      board.style.width = '300px';
+      board.style.width = '350px';
+      board.style.height = '350px';
+      board.style.justifyItems = 'center';
+      board.style.alignItems = 'center';
+      board.style.fontSize = '90px';
+      board.style.border = '1px solid black';
 
-
-      const generateRows = (() => {
-        let e = 0;
-        for (i = 0; i < 3; i ++) {
-          const row = document.createElement('div')
-          row.id = `row${i + 1}`;
-          if (e < 3) {
-            while (e < 3) {
-              const square = document.createElement('div')
-              square.textContent = grid[e];
-              row.appendChild(square);
-              e++;
-            }
-          } else if (e > 2 && e < 6) {
-                while (e < 6) {
-                  const square = document.createElement('div')
-                  square.textContent = grid[e];
-                  row.appendChild(square);
-                  e++;
-                }
-          } else if (e > 5) {
-              while (e < 9) {
-                const square = document.createElement('div')
-                square.textContent = grid[e];
-                row.appendChild(square);
-                e++;
-              }
-          }
-          console.log(e)
-          board.appendChild(row);
-        }})()
+      let e = 0;
+      for (let square of grid) {
+        let s = document.createElement('div');
+        s.textContent = square;
+        s.id = `${e + 1}`;
+        s.className = 'square';
+        s.style.border = "1px solid black";
+        board.appendChild(s);
+        e++;
+      }
 
         body.appendChild(board)
   
     })()
     
-    return { getBoard, createBoard };
+    return { getBoard, createBoard, addChoice};
   })();
 
+  let counter = 0,
+      swap = 0;
   const player = (name, color) => {
     const getName = () => name;
     const getColor = () => color;
-    return { getName, getColor };
+    const getChoice = () => counter === 0 ? 'X': 'O';
+    counter++;
+    return { getName, getColor, getChoice };
   };
 
   const bill = player("bill", "white");
 
-  const createBoard = (() => {
-    const body = document.querySelector('body');
-    const board = document.createElement('div');
-    board.id = 'board';
-    console.log(board)
-    const square = document.createElement('div')
+  const getPlayerChoice = () => swap === 0 ? 'X': 'O';
+  
 
-
-
-  })()
-
-
-  console.log(GameBoard);
-  console.log(bill);
+  const squares = document.querySelectorAll('.square');
+  for (let square of squares) {
+    square.addEventListener('click', (e) => {
+      const choice = e.target.id;
+      console.log(getPlayerChoice)
+      square.textContent = getPlayerChoice();
+      swap === 0 ? swap++: swap--;
+    })
+  }
+  
 })();
