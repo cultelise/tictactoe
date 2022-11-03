@@ -1,16 +1,40 @@
-(function () {
-  const GameBoard = (() => {
-    const grid = Array(9);
-    grid.fill(' ');
-    const getBoard = () => grid;
-    
-    const addChoice = ((choice, square) => {
-      grid[square].textContent = choice;
-    })
+const subButton = document.getElementById('submit')
 
+let counter = 0,
+swap = 0;
+const player = (name, color) => {
+const getNumber = () => counter;
+const getName = () => name;
+const getColor = () => color;
+const getChoice = () => {
+if (counter === 0) {
+  counter++;
+  return 'X'; 
+}
+  else return 'O';
+}
+return { getName, getColor, getChoice, getNumber };
+};
+
+
+
+
+subButton.addEventListener('click', () => {
+  const playerInput1 = document.getElementById('player1');
+  const playerName1 = playerInput1.value;
+  const playerInput2 = document.getElementById('player2');
+  const playerName2 = playerInput2.value;
+  const player1 = player(playerName1)
+  const player2 = player(playerName2)
+    
+    
     const createBoard = (() => {
+      const grid = Array(9);
       const body = document.querySelector('body');
       const board = document.createElement('div');
+      grid.fill(' ');
+      
+      (function() {
       board.id = 'board';
       board.style.display = 'grid';
       board.style.gridTemplate = '1fr 1fr 1fr / 1fr 1fr 1fr'
@@ -20,6 +44,7 @@
       board.style.alignItems = 'center';
       board.style.fontSize = '90px';
       board.style.border = '1px solid black';
+    })()
 
       let e = 0;
       for (let square of grid) {
@@ -34,34 +59,29 @@
 
         body.appendChild(board)
   
-    })()
-    
-    return { getBoard, createBoard, addChoice};
-  })();
+    })();
 
-  let counter = 0,
-      swap = 0;
-  const player = (name, color) => {
-    const getName = () => name;
-    const getColor = () => color;
-    const getChoice = () => counter === 0 ? 'X': 'O';
-    counter++;
-    return { getName, getColor, getChoice };
-  };
+ 
+ 
 
-  const bill = player("bill", "white");
+  const activePlayer = () => {
+    if (swap === 0) {swap++; return player1} else swap--; return player2;
+  }
 
   const getPlayerChoice = () => swap === 0 ? 'X': 'O';
   
-
+  const names = document.getElementById('names');
   const squares = document.querySelectorAll('.square');
+  
   for (let square of squares) {
-    square.addEventListener('click', (e) => {
-      const choice = e.target.id;
-      console.log(getPlayerChoice)
-      square.textContent = getPlayerChoice();
-      swap === 0 ? swap++: swap--;
+    square.addEventListener('click', () => {
+      if (square.textContent === ' ') {
+        square.textContent = getPlayerChoice();
+        names.textContent = `${activePlayer().getName()}! It's your turn!`;
+      }
     })
   }
-  
-})();
+  names.textContent = `${activePlayer().getName()}! It's your turn!`
+
+
+})
