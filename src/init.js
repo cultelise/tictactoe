@@ -1,25 +1,33 @@
-let counter = 0,
-  swap = 0;
+import {silly} from './index'
 
-const player = (name) => {
-  const getNumber = () => counter;
-  const getName = () => name;
-  const getChoice = () => {
-    if (counter === 0) {
-      counter++;
-      return "X";
-    } else return "O";
+export let player1,
+ player2,
+ counter = 0;
+
+const subButton = document.getElementById("submit");
+export const addBtn = subButton.addEventListener("click", () => {
+  const player = (name) => {
+    const getNumber = () => counter;
+    const playerName = name;
+    const getChoice = () => {
+      if (counter === 0) {
+        counter++;
+        return "X";
+      } else return "O";
+    };
+    const choice = getChoice();
+
+    return { name: playerName, choice, getNumber };
   };
-  return { getName, getChoice, getNumber };
-};
+  
+  const playerInput1 = document.getElementById("player1");
+  const playerName1 = playerInput1.value;
+  const playerInput2 = document.getElementById("player2");
+  const playerName2 = playerInput2.value;
+  
+  player1 = player(playerName1);
+  player2 = player(playerName2);
+  
+  silly()
+});
 
-const playerInput1 = document.getElementById("player1");
-const playerName1 = playerInput1.value;
-const playerInput2 = document.getElementById("player2");
-const playerName2 = playerInput2.value;
-
-export const player1 = player(playerName1);
-export const player2 = player(playerName2);
-
-
-console.log(player1.getChoice())

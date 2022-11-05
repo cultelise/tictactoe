@@ -1,4 +1,4 @@
-import {player1, player2} from './index';
+import {player1, player2} from './init';
 
 let swap = 0,
 turn;
