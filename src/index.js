@@ -1,7 +1,7 @@
-import createBoard from './board';
-import './init'
-import { mode } from './modes';
 import "./style.css";
+import './init'
+import createBoard from './board';
+import { mode } from './modes';
 
 
 export const silly = () => {

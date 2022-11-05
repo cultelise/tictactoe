@@ -1,8 +1,9 @@
 import {silly} from './index'
 
 export let player1,
- player2,
- counter = 0;
+ player2;
+ 
+let counter = 0;
 
 const subButton = document.getElementById("submit");
 export const addBtn = subButton.addEventListener("click", () => {
